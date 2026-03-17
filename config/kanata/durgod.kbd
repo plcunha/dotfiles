@@ -1,0 +1,74 @@
+(defcfg
+  process-unmapped-keys yes
+  macos-dev-names-exclude (
+    "MX Master"
+  )
+)
+
+(defvar
+  tap-timeout 200
+  hold-timeout 200
+)
+
+(defsrc
+  caps a s d f j k l ;
+  q w e u
+  ins home pgup del end pgdn 
+  lalt lmet
+  ` nonusbslash
+  lctl
+)
+
+(deflayer base
+  esc
+  (tap-hold $tap-timeout $hold-timeout a lsft)
+  (tap-hold $tap-timeout $hold-timeout s lctl)
+  (tap-hold $tap-timeout $hold-timeout d lalt)
+  (tap-hold $tap-timeout $hold-timeout f lmet)
+  (tap-hold $tap-timeout $hold-timeout j rmet)
+  (tap-hold $tap-timeout $hold-timeout k ralt)
+  (tap-hold $tap-timeout $hold-timeout l rctl)
+  (tap-hold $tap-timeout $hold-timeout ; rsft)
+  q
+  w
+  e
+  u
+  (multi ralt rctl 1)
+  (multi ralt rctl 2)
+  (multi ralt rctl 3)
+  (multi ralt rctl 4)
+  (multi ralt rctl 5)
+  (multi ralt rctl 6)
+  lmet
+  lalt
+  nonusbslash
+  `
+  (layer-switch editor)
+)
+
+(deflayer editor
+  esc
+  (tap-hold $tap-timeout $hold-timeout a lsft)
+  (tap-hold $tap-timeout $hold-timeout s lctl)
+  (tap-hold $tap-timeout $hold-timeout d lalt)
+  (tap-hold $tap-timeout $hold-timeout f lmet)
+  (tap-hold $tap-timeout $hold-timeout j rmet)
+  (tap-hold $tap-timeout $hold-timeout k ralt)
+  (tap-hold $tap-timeout $hold-timeout l rctl)
+  (tap-hold $tap-timeout $hold-timeout ; rsft)
+  (multi lmet z)
+  del
+  l
+  (multi lmet z)
+  (multi ralt rctl 1)
+  (multi ralt rctl 2)
+  (multi ralt rctl 3)
+  (multi ralt rctl 4)
+  (multi ralt rctl 5)
+  (multi ralt rctl 6)
+  lmet
+  lalt
+  nonusbslash
+  `
+  (layer-switch base)
+)
