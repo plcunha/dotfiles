@@ -32,6 +32,29 @@ My personal configuration files and settings.
 
 ## Installation
 
+### Quick Setup (Run scripts)
+
+#### Linux/macOS/WSL
+```bash
+cd ~/dotfiles
+
+# Neovim
+./scripts/setup-nvim.sh
+
+# Or set up everything at once
+./sync.sh
+```
+
+#### Windows
+```powershell
+cd ~/dotfiles
+
+# Neovim
+.\scripts\setup-nvim.ps1
+```
+
+### Manual Setup (Create symlinks)
+
 To set up these dotfiles on a new machine:
 
 1. Clone this repository:
@@ -41,10 +64,10 @@ To set up these dotfiles on a new machine:
 
 2. Create symlinks:
    ```bash
-   # SketchyBar
+   # SketchyBar (macOS only)
    ln -s ~/dotfiles/config/sketchybar ~/.config/sketchybar
    
-   # Aerospace
+   # Aerospace (macOS only)
    ln -s ~/dotfiles/aerospace.toml ~/.aerospace.toml
    ln -s ~/dotfiles/config/aerospace ~/.config/aerospace
    
