@@ -8,7 +8,7 @@ BACKUP_DIR="$DOTFILES_DIR/.backup"
 IGNORE_FILES=(.zsh_history .zcompdump .bash_history .python_history .viminfo .DS_Store .CFUserTextEncoding)
 IGNORE_DIRS=(node_modules .git __pycache__ target dist build .venv venv .backup)
 
-ROOT_FILES=(.zshrc .gitconfig .aerospace.toml .wezterm.lua)
+ROOT_FILES=(.zshrc .gitconfig .aerospace.toml wezterm.lua)
 CONFIG_DIRS=(fish nvim sketchybar mise nix helix kanata opencode)
 
 # ===== OPTIONS =====
