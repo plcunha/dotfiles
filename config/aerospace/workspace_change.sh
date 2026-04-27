@@ -7,5 +7,5 @@ CURRENT_WORKSPACE="$(aerospace list-workspaces --focused)"
 NEXT_WORKSPACE=$1
 
 # Update sketchybar directly
-/Users/richardoliverbray/.config/sketchybar/plugins/aerospace_update_all.sh "$NEXT_WORKSPACE"
+"$HOME/.config/sketchybar/plugins/aerospace_update_all.sh" "$NEXT_WORKSPACE"
 aerospace workspace "$NEXT_WORKSPACE"

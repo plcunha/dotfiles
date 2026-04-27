@@ -25,7 +25,8 @@
   <string>Interactive</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/richardoliverbray/.config/sketchybar/sketchybarrc</string>
+    <!-- NOTE: Replace $HOME with absolute path before use -->
+    <string>$HOME/.config/sketchybar/sketchybarrc</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
