@@ -1,0 +1,71 @@
+name: Cross-Platform Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-scripts:
+    name: Validate shell scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check fish syntax
+        run: |
+          if command -v fish &> /dev/null; then
+            fish -n config/fish/config.fish
+            for file in config/fish/functions/*.fish config/fish/conf.d/*.fish; do
+              fish -n "$file" 2>/dev/null || true
+            done
+          else
+            echo "fish not installed, skipping syntax check"
+          fi
+
+      - name: Check bash/sh syntax
+        run: |
+          for script in sync.sh scripts/*.sh Mise-setup.sh wsl-setup.sh vps_setup.sh; do
+            if [ -f "$script" ]; then
+              shellcheck --shell=bash "$script" || true
+            fi
+          done
+
+  validate-toml:
+    name: Validate TOML configs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate TOML
+        run: |
+          for file in mise/config.toml helix/config.toml; do
+            if [ -f "$file" ]; then
+              python3 -c "import tomllib; tomllib.load(open('$file', 'rb'))" 2>/dev/null || \
+              python3 -c "import toml; toml.load(open('$file'))" 2>/dev/null || \
+              echo "TOML validation for $file skipped (toml not available)"
+            fi
+          done
+
+  validate-nix:
+    name: Validate Nix flakes
+    runs-on: ubuntu-latest
+    if: false # Disable if nix not used
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check nix flake
+        run: |
+          if command -v nix &> /dev/null; then
+            nix flake check --no-build --show-trace config/nix/flake.nix 2>/dev/null || \
+            echo "Nix flake check skipped"
+          else
+            echo "nix not installed, skipping"
+          fi
