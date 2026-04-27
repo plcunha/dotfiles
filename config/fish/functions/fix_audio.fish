@@ -16,12 +16,13 @@ function fix_audio --description "Fix audio processing with clean_audio.py scrip
     end
 
     echo "Processing audio with audio file: $audio_file, preset: $preset"
-    # Check if script exists in common locations
+    # Dynamically locate script in common development directories for cross-platform support
     set -l clean_audio_script ""
-    if test -f "$HOME/content-tools/scripts/clean_audio.py"
-        set clean_audio_script "$HOME/content-tools/scripts/clean_audio.py"
-    else if test -f "$HOME/content-tools/scripts/clean_audio.py"
-        set clean_audio_script "$HOME/content-tools/scripts/clean_audio.py"
+    for dir in ~/content-tools/scripts $HOME/content-tools/scripts
+        if test -f "$dir/clean_audio.py"
+            set clean_audio_script "$dir/clean_audio.py"
+            break
+        end
     end
     if test -n "$clean_audio_script"
         uv run --with requests "$clean_audio_script" ~/Downloads/"$audio_file" --preset "$preset"

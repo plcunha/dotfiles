@@ -1,18 +1,9 @@
 -- Default shell with OS detection and dynamic PATH lookup
+-- Uses wezterm.exeify() for cross-platform shell discovery (macOS/Linux/WSL)
 local wezterm = require 'wezterm'
-local config = wezterm.config_builder()
-
-local target = wezterm.target_triple()
-local shell
-if target:match("apple-darwin") then
-  -- Try to find fish in PATH first, fallback to known macOS locations
-  shell = wezterm.exeify("fish") or "/opt/homebrew/bin/fish"
-else
-  -- Linux/WSL fallback
-  shell = wezterm.exeify("fish") or "/usr/bin/fish"
-end
+-- wezterm.exeify() searches PATH for the executable and adds .exe suffix on Windows
+local shell = wezterm.exeify("fish")
 config.default_prog = { shell, "-l" }
-
 config.font_size = 19
 config.line_height = 1.1
 config.font = wezterm.font "BlexMono Nerd Font Mono"

@@ -15,11 +15,14 @@ set -g fish_greeting ""
 
 # Initialize Starship prompt
 starship init fish | source
+# ===== macOS-specific setup =====
+# homebrew and WezTerm are only available on macOS
 if test (uname) = "Darwin"
     eval "$(/opt/homebrew/bin/brew shellenv)"
     # Add WezTerm to PATH (macOS only)
     fish_add_path -a "/Applications/WezTerm.app/Contents/MacOS"
 end
+# ===== end macOS-specific =====
 zoxide init fish | source
 mise activate fish | source
 
