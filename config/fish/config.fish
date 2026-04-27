@@ -18,9 +18,14 @@ starship init fish | source
 # ===== macOS-specific setup =====
 # homebrew and WezTerm are only available on macOS
 if test (uname) = "Darwin"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    # Add WezTerm to PATH (macOS only)
-    fish_add_path -a "/Applications/WezTerm.app/Contents/MacOS"
+    # Check if homebrew exists before sourcing
+    if test -f /opt/homebrew/bin/brew
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    end
+    # Add WezTerm to PATH (macOS only) - only if installed
+    if test -d "/Applications/WezTerm.app/Contents/MacOS"
+        fish_add_path -a "/Applications/WezTerm.app/Contents/MacOS"
+    end
 end
 # ===== end macOS-specific =====
 zoxide init fish | source
@@ -72,17 +77,24 @@ abbr gsp 'git stash pop'
 abbr cuca 'uv run --with "numpy,pyaudio" ~/content-tools/scripts/virtual_mic_delay.py'
 abbr transcribe '~/whisper_app/index.js ~/Downloads/"$input_name"_ff.mp4'
 
-# Kanata control aliases
-abbr kdurgod 'sudo kanata --cfg ~/.config/kanata/durgod.kbd --port 7070'
-abbr kdefault 'sudo kanata --cfg ~/.config/kanata/default.kbd --port 7070'
+# Kanata control aliases (macOS keyboard customization)
+if test (uname) = "Darwin"
+    abbr kdurgod 'sudo kanata --cfg ~/.config/kanata/durgod.kbd --port 7070'
+    abbr kdefault 'sudo kanata --cfg ~/.config/kanata/default.kbd --port 7070'
+end
 
-# Nix aliases
-abbr darwin-rebuild 'sudo darwin-rebuild switch --flake ~/dotfiles/config/nix#my-mac'
+# Nix aliases (darwin-rebuild for macOS only)
+if test (uname) = "Darwin"
+    abbr darwin-rebuild 'sudo darwin-rebuild switch --flake ~/dotfiles/config/nix#my-mac'
+end
 
-set -gx PATH /nix/var/nix/profiles/system/sw/bin $PATH
-set -gx PATH /run/current-system/sw/bin $PATH
-set -gx NIX_PATH darwin=$HOME/.nix-defexpr/channels/nixpkgs-darwin:darwin-config=$HOME/.nixpkgs/darwin-configuration.nix $NIX_PATH
-set -gx NIX_PATH darwin=$HOME/.config/nix:$NIX_PATH
+# Nix paths (NixOS/darwin only - skip on standard Linux)
+if test -d /nix
+    set -gx PATH /nix/var/nix/profiles/system/sw/bin $PATH
+    set -gx PATH /run/current-system/sw/bin $PATH
+    set -gx NIX_PATH darwin=$HOME/.nix-defexpr/channels/nixpkgs-darwin:darwin-config=$HOME/.nixpkgs/darwin-configuration.nix $NIX_PATH
+    set -gx NIX_PATH darwin=$HOME/.config/nix:$NIX_PATH
+end
 set -x EZA_CONFIG_DIR $HOME/.config/eza
 functions -e spf
 set -gx PATH $HOME/.local/bin $PATH
