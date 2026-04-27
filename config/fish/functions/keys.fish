@@ -1,5 +1,5 @@
 function keys -d "Auto-detect and monitor keyboard changes"
-    set config_dir /Users/robray/dotfiles/config/kanata
+    set config_dir "$HOME/dotfiles/config/kanata"
     set current_config ""
 
     function __keys_stop_kanata

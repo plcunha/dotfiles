@@ -1,7 +1,7 @@
 # Modern SketchyBar Configuration
 # A clean, developer-friendly setup with commonly used widgets
 
-CONFIG_DIR="/Users/robray/.config/sketchybar"
+CONFIG_DIR="$HOME/.config/sketchybar"
 source "$CONFIG_DIR/colors.sh"
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"

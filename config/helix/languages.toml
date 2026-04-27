@@ -23,4 +23,4 @@ language-servers = ["typescript-language-server"]
 
 [language-server.typescript-language-server]
 command = "node"
-args = ["/Users/robray/.local/share/mise/installs/npm-typescript-language-server/5.1.3/lib/node_modules/typescript-language-server/lib/cli.mjs", "--stdio"]
+args = ["$HOME/.local/share/mise/installs/npm-typescript-language-server/5.1.3/lib/node_modules/typescript-language-server/lib/cli.mjs", "--stdio"]
