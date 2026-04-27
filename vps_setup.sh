@@ -138,15 +138,21 @@ install_neovim() {
     NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
     log "Installing Neovim $NVIM_VERSION"
     
-    curl -LO "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz"
-    tar -xzf nvim-linux-x86_64.tar.gz
+    # Detect architecture
+    local arch="x86_64"
+    if [[ $(uname -m) == "aarch64" || $(uname -m) == "arm64" ]]; then
+        arch="aarch64"
+    fi
+    
+    curl -LO "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-${arch}.tar.gz"
+    tar -xzf nvim-linux-${arch}.tar.gz
     
     if [[ $EUID -eq 0 ]]; then
-        mv nvim-linux-x86_64 /opt/nvim
+        mv nvim-linux-${arch} /opt/nvim
         ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
     else
         mkdir -p ~/.local
-        mv nvim-linux-x86_64 ~/.local/nvim
+        mv nvim-linux-${arch} ~/.local/nvim
         mkdir -p ~/.local/bin
         ln -sf ~/.local/nvim/bin/nvim ~/.local/bin/nvim
         # Ensure ~/.local/bin is in PATH
@@ -158,7 +164,7 @@ install_neovim() {
         fi
     fi
     
-    rm -f nvim-linux-x86_64.tar.gz
+    rm -f nvim-linux-${arch}.tar.gz
     
     success "Neovim installed"
 }
@@ -204,7 +210,7 @@ setup_nvchad() {
     
     # Clone your dotfiles nvim config
     log "Cloning NvChad configuration from your dotfiles..."
-    DOTFILES_REPO_URL="${DOTFILES_REPO_URL:-https://github.com/RichardBray/dotfiles.git}"
+    DOTFILES_REPO_URL="${DOTFILES_REPO_URL:-https://github.com/plcunha/dotfiles.git}"
     git clone "$DOTFILES_REPO_URL" /tmp/dotfiles
     cp -r /tmp/dotfiles/config/nvim ~/.config/
     rm -rf /tmp/dotfiles
@@ -256,15 +262,20 @@ install_additional_tools() {
             # Install from GitHub releases as fallback
             cd /tmp
             RG_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep -Po '"tag_name": "\K.*?(?=")')
-            curl -LO "https://github.com/BurntSushi/ripgrep/releases/download/${RG_VERSION}/ripgrep-${RG_VERSION}-x86_64-unknown-linux-musl.tar.gz"
-            tar -xzf ripgrep-*.tar.gz
+            # Detect architecture
+            local rg_arch="x86_64"
+            if [[ $(uname -m) == "aarch64" || $(uname -m) == "arm64" ]]; then
+                rg_arch="aarch64"
+            fi
+            curl -LO "https://github.com/BurntSushi/ripgrep/releases/download/${RG_VERSION}/ripgrep-${RG_VERSION}-${rg_arch}-unknown-linux-musl.tar.gz"
+            tar -xzf ripgrep-${RG_VERSION}-${rg_arch}-unknown-linux-musl.tar.gz
             if [[ $EUID -eq 0 ]]; then
-                mv ripgrep-*/rg /usr/local/bin/
+                mv ripgrep-${RG_VERSION}-${rg_arch}-unknown-linux-musl/rg /usr/local/bin/
             else
                 mkdir -p ~/.local/bin
-                mv ripgrep-*/rg ~/.local/bin/
+                mv ripgrep-${RG_VERSION}-${rg_arch}-unknown-linux-musl/rg ~/.local/bin/
             fi
-            rm -rf ripgrep-*
+            rm -rf ripgrep-${RG_VERSION}-${rg_arch}-unknown-linux-musl*
         fi
     fi
     
