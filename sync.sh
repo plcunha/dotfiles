@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Cross-platform dotfiles sync script
+# Tested on: Linux, macOS, WSL (Windows Subsystem for Linux)
+#
+# This script syncs configuration files from ~/.config and $HOME to the dotfiles
+# repository and creates symlinks back. It handles platform differences automatically
+# by using standard XDG paths (.config/) which work on both Linux and macOS.
+#
+# Platform notes:
+#   - Linux/macOS: Uses ~/.config/ for application configs
+#   - WSL: Same as Linux, works out of the box
+#   - Homebrew: Configs are installed to ~/.config/ (not brew --prefix)
+#
+# See docs/sync.sh.md for detailed documentation.
+
 set -uo pipefail
 
 # ===== CONFIGURATION =====
