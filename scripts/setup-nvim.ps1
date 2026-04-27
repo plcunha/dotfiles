@@ -1,6 +1,6 @@
 # Neovim Setup Script for Windows
 
-$nvimConfigPath = "$env:LOCALAPPDATA\nvim"
+$nvimConfigPath = Join-Path $env:LOCALAPPDATA "nvim"
 $dotfilesPath = Split-Path -Parent $PSScriptRoot
 
 # Backup existing nvim config

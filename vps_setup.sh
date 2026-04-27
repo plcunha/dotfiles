@@ -204,7 +204,8 @@ setup_nvchad() {
     
     # Clone your dotfiles nvim config
     log "Cloning NvChad configuration from your dotfiles..."
-    git clone https://github.com/RichardBray/dotfiles.git /tmp/dotfiles
+    DOTFILES_REPO_URL="${DOTFILES_REPO_URL:-https://github.com/RichardBray/dotfiles.git}"
+    git clone "$DOTFILES_REPO_URL" /tmp/dotfiles
     cp -r /tmp/dotfiles/config/nvim ~/.config/
     rm -rf /tmp/dotfiles
     

@@ -252,18 +252,27 @@ sync_root_files() {
     
     local synced=0
     local skipped=0
+    local failed=0
     
     for file in "${ROOT_FILES[@]}"; do
         verbose "Processing root file: $file"
         local home_file="$HOME/$file"
         local dotfile="$DOTFILES_DIR/$file"
         
-        sync_file "$home_file" "$dotfile" || true
-        verbose "Synced: $file"
-        synced=$((synced + 1))
+        local result
+        sync_file "$home_file" "$dotfile"
+        result=$?
+        
+        if [[ $result -eq 0 ]]; then
+            synced=$((synced + 1))
+        elif [[ $result -eq 2 ]]; then
+            skipped=$((skipped + 1))
+        else
+            failed=$((failed + 1))
+        fi
     done
-    
-    echo "Root files: $synced synced, $skipped skipped"
+
+    echo "Root files: $synced synced, $skipped skipped, $failed failed"
 }
 
 sync_config_files() {
@@ -271,6 +280,7 @@ sync_config_files() {
     
     local synced=0
     local skipped=0
+    local failed=0
     
     for dir in "${CONFIG_DIRS[@]}"; do
         local config_dir="$HOME/.config/$dir"
@@ -294,14 +304,16 @@ sync_config_files() {
             
             if [[ $result -eq 0 ]]; then
                 synced=$((synced + 1))
-            else
+            elif [[ $result -eq 2 ]]; then
                 skipped=$((skipped + 1))
+            else
+                failed=$((failed + 1))
             fi
         done
         verbose "Completed directory: $dir ($count files)"
     done
-    
-    echo "Config files: $synced synced, $skipped skipped"
+
+    echo "Config files: $synced synced, $skipped skipped, $failed failed"
 }
 
 sync_all() {

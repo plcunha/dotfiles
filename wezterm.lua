@@ -1,15 +1,21 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
--- General
+-- Default shell with OS detection
+local target = wezterm.target_triple()
+local shell
+if target:match("apple-darwin") then
+  shell = "/opt/homebrew/bin/fish"
+else
+  shell = "/usr/bin/fish" -- Linux fallback
+end
+config.default_prog = { shell, "-l" }
+
 config.font_size = 19
 config.line_height = 1.1
 config.font = wezterm.font "BlexMono Nerd Font Mono"
 config.color_scheme = 'tokyonight_night'
 config.window_close_confirmation = 'NeverPrompt' -- For quitting WezTerm
-config.default_prog = { '/run/current-system/sw/bin/fish', '-l' }
-config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
-config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
 -- Performance Hack
 config.max_fps = 120
@@ -50,10 +56,10 @@ config.keys = {
     mods = 'CMD|SHIFT',
     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
-  { 
-    key = 'k', 
-    mods = 'CMD', 
-    action = wezterm.action.SendString 'clear\n' 
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.SendString 'clear\n'
   },
   {
     key = '+',
