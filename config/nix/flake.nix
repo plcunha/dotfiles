@@ -1,4 +1,10 @@
 {
+  # IMPORTANT: This flake is configured for user "robray". Before using:
+  # 1. Replace all instances of "robray" with your username
+  # 2. Update the home directory path (/Users/robray) if needed
+  # 3. Update darwinConfigurations key "my-mac" to your hostname
+  #
+  # Usage: darwin-rebuild build --flake .#simple
   description = "Example nix-darwin system flake";
 
   inputs = {
