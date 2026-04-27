@@ -78,6 +78,6 @@ set -gx PATH /nix/var/nix/profiles/system/sw/bin $PATH
 set -gx PATH /run/current-system/sw/bin $PATH
 set -gx NIX_PATH darwin=$HOME/.nix-defexpr/channels/nixpkgs-darwin:darwin-config=$HOME/.nixpkgs/darwin-configuration.nix $NIX_PATH
 set -gx NIX_PATH darwin=$HOME/.config/nix:$NIX_PATH
-set -x EZA_CONFIG_DIR /Users/richardoliverbray/.config/eza
+set -x EZA_CONFIG_DIR $HOME/.config/eza
 functions -e spf
 set -gx PATH $HOME/.local/bin $PATH

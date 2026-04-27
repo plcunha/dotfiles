@@ -3,16 +3,8 @@ function __git.init
     set -l name $argv[1]
     set -l body $argv[2..-1]
 
-    # TODO: global scope abbr will be default in fish 3.6.0
-    abbr -a -g $name $body
-  end
-
-  # Provide a smooth transition from universal to global abbreviations by
-  # deleting the old univeral ones.  Can be removed after fish 3.6 is in
-  # wide-spread use, i.e. 2024.  __git.destroy should also be removed
-  # at the same time.
-  if set -q __git_plugin_initialized
-    __git.destroy
+    # Global scope is now default in fish 3.6.0+
+    abbr -a $name $body
   end
 
   # git abbreviations
