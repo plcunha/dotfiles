@@ -1,13 +1,15 @@
+-- Default shell with OS detection and dynamic PATH lookup
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
--- Default shell with OS detection
 local target = wezterm.target_triple()
 local shell
 if target:match("apple-darwin") then
-  shell = "/opt/homebrew/bin/fish"
+  -- Try to find fish in PATH first, fallback to known macOS locations
+  shell = wezterm.exeify("fish") or "/opt/homebrew/bin/fish"
 else
-  shell = "/usr/bin/fish" -- Linux fallback
+  -- Linux/WSL fallback
+  shell = wezterm.exeify("fish") or "/usr/bin/fish"
 end
 config.default_prog = { shell, "-l" }
 

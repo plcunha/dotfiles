@@ -15,13 +15,15 @@ set -g fish_greeting ""
 
 # Initialize Starship prompt
 starship init fish | source
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if test (uname) = "Darwin"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    # Add WezTerm to PATH (macOS only)
+    fish_add_path -a "/Applications/WezTerm.app/Contents/MacOS"
+end
 zoxide init fish | source
 mise activate fish | source
 
 fish_add_path ~/.opencode/bin
-# Add WezTerm to PATH
-fish_add_path -a "/Applications/WezTerm.app/Contents/MacOS"
 
 # Aliases
 alias vim='nvim'

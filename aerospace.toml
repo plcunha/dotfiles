@@ -73,7 +73,8 @@ outer.right =      20
 [exec]
 inherit-env-vars = true
 [exec.env-vars]
-PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+# Use dynamic PATH - inherit system PATH, macOS can add homebrew via separate config
+PATH = '${PATH}'
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes

@@ -16,7 +16,19 @@ function fix_audio --description "Fix audio processing with clean_audio.py scrip
     end
 
     echo "Processing audio with audio file: $audio_file, preset: $preset"
-    uv run --with requests ~/content-tools/scripts/clean_audio.py ~/Downloads/"$audio_file" --preset "$preset"
+    # Check if script exists in common locations
+    set -l clean_audio_script ""
+    if test -f "$HOME/content-tools/scripts/clean_audio.py"
+        set clean_audio_script "$HOME/content-tools/scripts/clean_audio.py"
+    else if test -f "$HOME/content-tools/scripts/clean_audio.py"
+        set clean_audio_script "$HOME/content-tools/scripts/clean_audio.py"
+    end
+    if test -n "$clean_audio_script"
+        uv run --with requests "$clean_audio_script" ~/Downloads/"$audio_file" --preset "$preset"
+    else
+        echo "Error: clean_audio.py not found in ~/content-tools/scripts/"
+        return 1
+    end
 
     say "Audio processing complete"
 end

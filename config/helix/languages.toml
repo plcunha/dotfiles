@@ -3,7 +3,7 @@ name = "markdown"
 language-servers = ["typos-lsp"]
 
 [language-server.typos-lsp]
-command = "/opt/homebrew/bin/typos-lsp"
+command = "typos-lsp"
 
 [[language]]
 name = "typescript"
