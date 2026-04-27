@@ -1,10 +1,12 @@
 {
-  # IMPORTANT: This flake is configured for user "robray". Before using:
-  # 1. Replace all instances of "robray" with your username
-  # 2. Update the home directory path (/Users/robray) if needed
-  # 3. Update darwinConfigurations key "my-mac" to your hostname
-  #
-  # Usage: darwin-rebuild build --flake .#simple
+# IMPORTANT: This flake is configured for user "robray". Before using:
+# 1. Replace all instances of "robray" with your username
+# 2. Update darwinConfigurations key "my-mac" to your hostname
+#
+# Note: This is a macOS-only configuration using nix-darwin.
+# The home directory is automatically handled by nix-darwin.
+#
+# Usage: darwin-rebuild build --flake .#simple
   description = "Example nix-darwin system flake";
 
   inputs = {
@@ -92,8 +94,8 @@
       system.primaryUser = "robray";
 
       system.activationScripts.dotfiles.text = let
-    	homeDir = "/Users/robray";
-    	dotfilesDir = "${homeDir}/dotfiles/config";
+        homeDir = builtins.getEnv "HOME";
+        dotfilesDir = "${homeDir}/dotfiles/config";
       in "";
 
       # Necessary for using flakes on this system.

@@ -5,8 +5,8 @@ set -euo pipefail
 
 # Detect WSL and set user home properly
 if [[ -f /etc/wsl.conf ]]; then
-    WSL_USER_HOME=$(wslvar -u USERNAME 2>/dev/null || echo "$USER")
-    WSL_USER_HOME="/home/$WSL_USER_HOME"
+    WSL_USER=$(wslvar -u USERNAME 2>/dev/null || echo "$USER")
+    WSL_USER_HOME="/home/$WSL_USER"
 else
     WSL_USER_HOME="$HOME"
 fi
